@@ -2,6 +2,7 @@ import sys
 from pathlib import Path
 from domain.models import ReportType
 from generation.excel_renderer import ExcelRenderer
+from generation.pdf_renderer import PdfRenderer
 from parsing.classifier import ReportClassifier
 from parsing.factory import ParserFactory
 from parsing.ocr import extract_text_from_pdf
@@ -63,7 +64,13 @@ def process_attendance_report(pdf_path: Path, output_dir: Path, seed: int = 42):
   output_path = output_dir / f"{pdf_path.stem}_NEW"
   generated_file = excel_renderer.render(transformed_report, output_path)
 
-  print(f"[✔] Generated output file: {generated_file.name}\n")
+  print(f"[✔] Generated output file(excel): {generated_file.name}\n")
+  # Step 5: Generation (AttendanceReport -> Excel / PDF files)
+  pdf_renderer = PdfRenderer()
+  output_path = output_dir / f"{pdf_path.stem}_NEW"
+  generated_file = pdf_renderer.render(transformed_report, output_path)
+
+  print(f"[✔] Generated output file(pdf): {generated_file.name}\n")
 
 
 if __name__ == "__main__":
