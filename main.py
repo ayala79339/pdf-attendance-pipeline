@@ -21,11 +21,6 @@ def process_attendance_report(pdf_path: Path, output_dir: Path, seed: int = 42):
   # Step 1: Text Extraction (OCR / pypdfium2)
   raw_text = extract_text_from_pdf(pdf_path)
 
-  # --- הדפסת הטקסט שחולץ לצורך הדיאגנוסטיקה ---
-  print("\n=== START RAW TEXT ===")
-  print(raw_text if raw_text.strip() else "[Empty Text Extracted]")
-  print("=== END RAW TEXT ===\n")
-
   # Step 2: Report Type Classification with Fallback
   classifier = ReportClassifier()
   try:
@@ -34,12 +29,13 @@ def process_attendance_report(pdf_path: Path, output_dir: Path, seed: int = 42):
     print(f"[!] Classifier warning: {e}")
 
     # Fallback identification based on filename pattern (e.g. 'a_r_9.pdf' -> TYPE_A)
-    if "a_r" in pdf_path.name.lower():
-      report_type = ReportType.TYPE_A
-      print("[+] Fallback: Identified as TYPE_A based on filename.")
-    elif "b_r" in pdf_path.name.lower():
+    if "b_r" in pdf_path.name.lower():
       report_type = ReportType.TYPE_B
       print("[+] Fallback: Identified as TYPE_B based on filename.")
+    elif  "a_r" in pdf_path.name.lower():
+      report_type = ReportType.TYPE_A
+      print("[+] Fallback: Identified as TYPE_A based on filename.")
+
     else:
       raise e
 
@@ -74,7 +70,7 @@ def process_attendance_report(pdf_path: Path, output_dir: Path, seed: int = 42):
 
 
 if __name__ == "__main__":
-  input_file = Path("input_pdfs/a_r_9.pdf")
+  input_file = Path("input_pdfs/b_r_5_n.pdf")
   output_directory = Path("output")
   output_directory.mkdir(exist_ok=True)
 
