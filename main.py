@@ -70,7 +70,7 @@ def process_attendance_report(pdf_path: Path, output_dir: Path, seed: int = 42):
 
 
 if __name__ == "__main__":
-  input_file = Path("input_pdfs/b_r_5_n.pdf")
+  input_file = Path("input_pdfs/a_r_25.pdf")
   output_directory = Path("output")
   output_directory.mkdir(exist_ok=True)
 
